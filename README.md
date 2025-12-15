@@ -2,23 +2,25 @@
 
 
 ```
-.
-├── sds_scrape.py      # Парсинг данных SDS011 (пыль)
-├── bme_scrape.py      # Парсинг данных BME280 (температура, давление, влажность)
-├── process.py         # Обработка и агрегирование
-├── load_frost.py      # Загрузка данных на FrostServer
-├── descriptions.xlsx  # Исходные известные арактеристики датчиков
-├── FrostServer
-│ └── compose.yml      # Образ для создания локального FrostServer
-├── example            # Дириктория-пример для загрузки уже выгруженных данных на FrostServer
-│ ├── data 
-| │ ├── SDS011         # Папка с файлами сенсора типа SDS011
-| │ │ └── 82312        # Папка с csv файлами для данного sensor-id
-| │ └── BME280         # Папка с файлами сенсора типа BME280
-| │    └── 82313       # Папка с csv файлами для данного sensor-id
-| ├── load_frost.py    # Загрузка данных на FrostServer
-│ └── all_stats.xlsx   # Агрегированные характеристики датчиков, их локаций и т.д.
-└── README.md          # Вы читаете этот файл
+sensor-etl/
+├── app/
+│   ├── __init__.py
+│   ├── config.json         # Сенсоры и диапазоны загрузки + другие данные
+│   ├── main.py             # основной файл
+│   ├── scraper.py          # Парсер (Extract)
+│   ├── processor.py        # Обработка и геокодирование (Transform)
+│   ├── uploader.py         # Загрузка (Load)
+│   └── requirements.txt
+├── data_archive/           # Папка на хосте для сохранения CSV и логов
+│   ├── SDS011/
+│   ├── BME280/
+│   ├── all_stats.xlsx
+│   ├── description.xlsx    # Исходный файл с описаниями датчиков
+│   └── state.json          # Состояние по выгрузкам - последняя дата загрузки для каждого датчика
+├── .env                    # Секреты
+├── docker-compose.yml      # Запуск ETL сервиса
+├── Dockerfile              # Инструкция сборки образа
+└── README.md               # Описание проекта
 ```
 `sensor_ids = {
     "sensor_id":
@@ -117,3 +119,4 @@ docker compose up -d
 docker stop $(docker ps -q)
 docker rm $(docker ps -aq)
 ```
+
