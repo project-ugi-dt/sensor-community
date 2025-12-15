@@ -88,7 +88,7 @@ docker-compose up -d
 
 1.3. В файле `.env` вставьте свой `MAPBOX_TOKEN` для геокодирования координат
 
-2. Запуск
+2.🌟 Запуск
 
 ```bash
 docker-compose up -d --build
@@ -146,3 +146,4 @@ docker compose up -d
 docker stop $(docker ps -q)
 docker rm $(docker ps -aq)
 ```
+
